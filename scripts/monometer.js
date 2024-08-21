@@ -1,16 +1,15 @@
 // Oscar Saharoy 2021
 
-class Femtoscope {
+class Monometer {
 
     constructor() {
 
         this.serialConnection = new SerialConnection( this );
+        this.uInt8ToVoltage = char => char / 256.0 * 5.0;
+        this.voltageP = document.getElementById("voltage");
     }
 
     async collectData(reader) {
-
-        // listen to data coming from the serial device
-        this.unpause();
 
         while( true ) {
 
@@ -20,20 +19,15 @@ class Femtoscope {
             // if the reader is lost then handle this
             if( done ) return this.serialConnection.readerLost();
 
-            if( this.paused ) continue;
-
             // make a new array of voltage datapoints from the values array
             var newPoints = Array.from( value ).map( this.uInt8ToVoltage );
             
-            // add the points onto the existing array
-            this.points = this.points.concat( newPoints );
-
-            // trim old points from start of array
-            if(this.points.length > this.sampleCount) this.points = this.points.splice( this.points.length - this.sampleCount );
+            console.log(newPoints[newPoints.length - 1] + " V");
+            this.voltageP.textContent = newPoints[newPoints.length - 1] + " V";
         }
     }
 }
 
 // make the application objects
-const femtoscope       = new Femtoscope();
+const monometer        = new Monometer();
 const noSerialWarning  = new NoSerialWarning();

@@ -3,12 +3,36 @@
 
 <head>
     <title> ⚡ monometer ⚡ </title>
+    <style>
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+}
+
+html {
+}
+
+</style>
+
 </head>
 
-<body>
-    <p> monometer </p>
-    <button id="connect"> connect </button>
-    <div id="no-serial"> No serial! <button id="no-serial-continue"> continue </button> </div>
+<body style="min-height: 100vh; min-width: 100vw; display: grid; place-items: center;">
+    <div id="no-serial" style="justify-self: stretch; background: red; align-self: start; color: white; padding: 1rem 2rem;">
+        <p> No serial API support found in browser!
+            <a target="_blank" href="https://support.google.com/chrome/answer/12576972?hl=en-GB"> Learn More </a>
+        </p>
+    </div>
+
+    <main style="min-height: 100vh; display: grid; place-items: center; align-content: center; justify-items: left; gap: 1rem;">
+        <p> monometer </p>
+        <button id="connect"> connect to serial 🔌 </button>
+        <pre id="voltage"></pre>
+    </main>
 
     <script src="scripts/noserialwarning.js"></script>
     <script src="scripts/serialconnection.js"></script>

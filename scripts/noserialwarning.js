@@ -8,9 +8,6 @@ class NoSerialWarning {
         this.warningDiv = document.getElementById("no-serial");
 
         // button that hides that div
-        this.continueButton = document.getElementById("no-serial-continue");
-        this.continueButton.onclick = e => this.hide();
-
         this.checkSerialAPI();
     }
 

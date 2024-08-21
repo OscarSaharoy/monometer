@@ -69,6 +69,20 @@ class SerialConnection {
         }
     }
 
+    sendSamplingRate( rate ) {
+
+        // calculate microseconds per sample
+        const microsPerSample = 1e6 / rate;
+
+        // get the 4 bytes of that number's float representation
+        const buffer = new ArrayBuffer(4);
+        ( new Float32Array(buffer) )[0] = microsPerSample;
+        const bytes = new Uint8Array( buffer );
+
+        // write those 4 bytes to the serial connection
+        this.writer.write( bytes );
+    }
+
     readerLost() {
 
         // release the reader and writer locks
@@ -89,5 +103,12 @@ class SerialConnection {
         
         // put connect button back to its original state
         this.setButton( "connect to serial 🔌", () => this.connectToSerial() );
+    }
+
+    setButton( text, func ) {
+
+        // change the text and onclick function of the button
+        this.button.innerHTML = text;
+        this.button.onclick   = func; 
     }
 }
