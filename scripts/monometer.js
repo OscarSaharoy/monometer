@@ -7,6 +7,7 @@ class Monometer {
         this.serialConnection = new SerialConnection( this );
         this.uInt8ToVoltage = char => char / 256.0 * 5.0;
         this.voltageP = document.getElementById("voltage");
+        this.resistanceP = document.getElementById("resistance");
     }
 
     async collectData(reader) {
@@ -19,11 +20,11 @@ class Monometer {
             // if the reader is lost then handle this
             if( done ) return this.serialConnection.readerLost();
 
-            // make a new array of voltage datapoints from the values array
-            var newPoints = Array.from( value ).map( this.uInt8ToVoltage );
-            
-            console.log(newPoints[newPoints.length - 1] + " V");
-            this.voltageP.textContent = newPoints[newPoints.length - 1] + " V";
+            const V = this.uInt8ToVoltage( newPoints[ newPoints.length - 1 ] );
+            this.voltageP.textContent = V + " V";
+
+            // V = 5 * R / ( 10e+3 + R ) => V * 10e+3 + VR = 5R => R = ( V * 10e+3 ) / ( 5 - V )
+            this.resistanceP.textContent = ( V * 10e+3 ) / ( 5 - V ) + " ohms";
         }
     }
 }
